@@ -6,7 +6,7 @@ import 'champions.dart';
 final apiURL = 'https://static.bigbrain.gg/assets/lol/riot_patch_update/prod/champion-nicknames.json';
 final apiHeaders = {'Host': 'static.bigbrain.gg',};
 final pathArquivoChamps = 'champions.txt';
-final tokenPath = '<YOUR_TOKEN_PATH_HERE>'
+final tokenPath = '<YOUR_TOKEN_PATH_HERE>';
 
 // Auxilia nas mensagens de log
 void logTool(String message) {
