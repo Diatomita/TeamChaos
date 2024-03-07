@@ -25,6 +25,7 @@ void main() async {
 
   final botUser = await client.users.fetchCurrentUser();
 
+  // loop do handle de eventos
   client.onMessageCreate.listen((event) async {
     commandInterpreter(event, botUser, 'update', () => botUpdate());
     commandInterpreter(event, botUser, 'roleta', () => botRoleta());
