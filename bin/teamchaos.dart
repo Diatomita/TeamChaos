@@ -6,7 +6,9 @@ import 'champions.dart';
 final apiURL = 'https://static.bigbrain.gg/assets/lol/riot_patch_update/prod/champion-nicknames.json';
 final apiHeaders = {'Host': 'static.bigbrain.gg',};
 final pathArquivoChamps = 'champions.txt';
-final tokenPath = '<YOUR_TOKEN_PATH_HERE>';
+final tokenDiscordPath = 'tokenDiscord';
+final tokenGeminiPath = 'tokenGemini';
+
 
 // Auxilia nas mensagens de log
 void logTool(String message) {
@@ -16,7 +18,7 @@ void logTool(String message) {
 
 void main() async {
   // leitura do token
-  final token = File(tokenPath).readAsStringSync();
+  final token = File(tokenDiscordPath).readAsStringSync();
 
   // criação do client
   final client = await Nyxx.connectGateway(token,
