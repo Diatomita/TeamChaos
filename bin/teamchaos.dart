@@ -29,5 +29,6 @@ void main() async {
     commandInterpreter(event, botUser, 'roleta', () => botRoleta(event));
     commandInterpreter(event, botUser, 'barata', () => botBarata());
     commandInterpreter(event, botUser, 'hello', () => botPoples());
+    commandInterpreter(event, botUser, 'gemini', () => botGemini(event, 'gemini'));
   });
 }

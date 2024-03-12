@@ -37,6 +37,26 @@ int mod10Interpreter(event, String mod, int valueToChange, List<int> indexList, 
     return valueToChange;
 }
 
+// Retorna toda a string que estiver após o comando de ativação
+String commandSuppress(String input, String command) {
+  var index = input.indexOf(command);
+  return index != -1 ? input.substring(index + command.length) : '';
+}
+
+// Extrai os elementos com base no regex
+List<String> extrairElementos(message) {
+  final regexElementos = r"\[(.*?)\]";
+  RegExp regex = RegExp(regexElementos);
+  Match? match = regex.firstMatch(message);
+  if (match != null) {
+    String? elementosStr = match.group(1);
+    if (elementosStr != null) {
+      return elementosStr.split(',').map((e) => e.trim()).toList();
+    }
+  }
+  return [];
+}
+
 // Auxilia nas mensagens de log
 void logTool(String message) {
   DateTime now = DateTime.now();
@@ -45,9 +65,16 @@ void logTool(String message) {
 
 // Interpreta os comandos
 void commandInterpreter(event, botUser, String command, Future<String> Function() func) async {
-  if (event.mentions.contains(botUser) && event.message.content.toLowerCase().contains(command)) {
+  try {
+    if (event.mentions.contains(botUser) && event.message.content.toLowerCase().contains(command)) {
     await event.message.channel.sendMessage(MessageBuilder(
         content: await func(),
+        replyId: event.message.id,));
+    }
+  } catch (e) {
+    logTool(e.toString());
+    await event.message.channel.sendMessage(MessageBuilder(
+        content: 'Erro ao executar o comando!',
         replyId: event.message.id,
     ));
   }

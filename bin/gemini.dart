@@ -7,10 +7,15 @@ final tokenGemini = File(tokenGeminiPath).readAsStringSync();
 final modelGemini = GenerativeModel(model: 'gemini-pro', apiKey:tokenGemini);
 
 Future<String> gemini(String prompt) async {
-
-  var content = [Content.text(prompt)];
-  var response = await modelGemini.generateContent(content);
-  return response.text!;
+  String input = prompt;
+  var content = [Content.text(input)];
+  var output = await modelGemini.generateContent(content);
+  String response = output.text!;
+  // Limita o tamanho do output até 2000 chars
+  if (response.length > 2000) {
+    response = response.substring(0, 2000);
+  }
+  return response;
 }
 
 /*

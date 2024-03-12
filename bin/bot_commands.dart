@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:math';
+import 'gemini.dart';
 import 'teamchaos.dart';
 import 'custom_functions.dart';
 
@@ -36,7 +37,6 @@ Future<String> botUpdate() async {
   }
 }
 
-
 // Funcao da roleta
 Future<String> botRoleta(event) async {
   // Config do comando
@@ -47,8 +47,22 @@ Future<String> botRoleta(event) async {
   String modQntChamp = 'c';
   String modQntTime = 't';
   String modRepeat = 'r';
+  String modRollObject = 'o';
   int qntChamps = 5;
   int qntTimes = 1;
+
+  // Aplica o modificador O
+  if (charList.contains(modRollObject)) {
+    List<String> elementos = extrairElementos(event.message.content);
+    elementos.shuffle();
+
+    String resultadoRollObject = 'Resultado: \n\n';
+
+    for (int i = 0; i < elementos.length; i++) {
+      resultadoRollObject += '${i + 1} - ${elementos[i]}\n';
+    }
+    return resultadoRollObject;
+  }
 
   // Le o arquivo e adiciona cada linha em uma lista
   List<String> champList = [];
@@ -111,4 +125,15 @@ Future<String> botPoples() async {
     String msg = 'poples';
     logTool(msg);
     return msg;
+}
+
+// Gemini
+Future<String> botGemini(event, command) async {
+  try {
+    String msg = event.message.content;
+    return gemini(commandSuppress(msg, command));
+  } catch (e) {
+    return 'Erro ao executar a Gemini!';
+  }
+  
 }
