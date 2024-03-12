@@ -27,6 +27,16 @@ dynamic modInterpreter(message, String modChar) {
   return [indexList, charList, valueList];
 }
 
+// Interpreta o valor 10 nos modificadores
+int mod10Interpreter(event, String mod, int valueToChange, List<int> indexList, List<String> charList) {
+  if (indexList[charList.indexOf(mod)]+3 < event.message.content.length) {
+      if (int.parse(event.message.content[indexList[charList.indexOf(mod)]+3]) == 0) {
+        valueToChange = 10;
+      }
+    }
+    return valueToChange;
+}
+
 // Auxilia nas mensagens de log
 void logTool(String message) {
   DateTime now = DateTime.now();

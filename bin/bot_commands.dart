@@ -60,9 +60,7 @@ Future<String> botRoleta(event) async {
   if (charList.contains(modQntChamp)) {
     qntChamps = int.parse(valueList[charList.indexOf(modQntChamp)]);
     // Reconhece o 10 como valor de modificador e aplica
-    if (int.parse(event.message.content[indexList[charList.indexOf(modQntChamp)]+3]) == 0) {
-      qntChamps = 10;
-    }
+    qntChamps = mod10Interpreter(event, modQntChamp, qntChamps, indexList, charList);
   }
 
   List<String> teamsList = [];
@@ -71,9 +69,7 @@ Future<String> botRoleta(event) async {
     if (charList.contains(modQntTime)) {
       qntTimes = int.parse(valueList[charList.indexOf(modQntTime)]);
       // Reconhece o 10 como valor de modificador e aplica
-      if (int.parse(event.message.content[indexList[charList.indexOf(modQntTime)]+3]) == 0) {
-        qntTimes = 10;
-      }
+      qntTimes = mod10Interpreter(event, modQntTime, qntTimes, indexList, charList);
     }
 
     // Seleciona os champs aleatórios
@@ -82,19 +78,19 @@ Future<String> botRoleta(event) async {
       int champAleatorio = Random().nextInt(champList.length);
       while (champSelected.contains(champList[champAleatorio])) {
         champAleatorio = Random().nextInt(champList.length);
-      }
-
-      // Aplica o modidificador R
-      if (!charList.contains(modRepeat)) {
-        for (String teams in teamsList) {
-          while (teams.contains(champList[champAleatorio])) {
-            champAleatorio = Random().nextInt(champList.length);
-          }
-        }
+        print('champAleatorio: ${champList[champAleatorio]}');
       }
       champSelected.add(champList[champAleatorio]);
-    }
 
+      // Aplica o modificador R
+      if (!charList.contains(modRepeat)) {
+        print(champSelected);
+        for (var champ in champSelected) {
+          print(champ);
+          champList.remove(champ);
+        }
+      }
+    }
     logTool(champSelected.join(', '));
     String time = '\nTime ${i+1} :\n\n${champSelected.join('\n')}';
     teamsList.add(time);
